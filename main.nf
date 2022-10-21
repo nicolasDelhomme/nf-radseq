@@ -69,17 +69,17 @@ workflow {
   )
   
   // Raw data FastQC
-  fq_raw("raw", fqc_input(data), data)
+  //fq_raw("raw", fqc_input(data), data)
   // Trim and crop
-  trimmomatic(tri_input(data), params.trimmomatic_trimmers, data)
+  //trimmomatic(tri_input(data), params.trimmomatic_trimmers, data)
   // Post-trimming FastQC
-  fq_tri("trimmomatic", trimmomatic.out.data, trimmomatic.out.meta)
+  fq_tri("trimmomatic", tri_input(data), data)
   // Stacks 1: process radtags
   process_radtags(
-    trimmomatic.out.data, params.process_radtags_params, trimmomatic.out.meta
+    tri_input(data), params.process_radtags_params, data
   )
   // Stacks 2: ustacks
-  ustacks(process_radtags.out.data, params.ustacks_params, trimmomatic.out.meta)
+  ustacks(process_radtags.out.data, params.ustacks_params, data)
   // Stacks 3: cstacks
   cstacks(
     ustacks.out.data.map(it -> it[0]).collect(),
@@ -126,9 +126,7 @@ workflow {
   )
   // Generate final report
   multiqc(
-    fq_raw.out.data
-    .concat(fq_tri.out.data)
-    .concat(trimmomatic.out.log)
+    fq_tri.out.data
     .concat(gstacks.out.log)
     .concat(populations.out.log)
     .flatten()
