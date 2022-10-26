@@ -26,7 +26,7 @@ samples <- read_tsv(here("raw_data/00-Reports/G.Spong_21_01_sample_info.txt"),
 #' # Metadata
 metadata <- t(sapply(samples$NGI_ID,function(smpl){
   files <- list.files(here("raw_data/trimmomatic"),pattern=smpl,full.names=TRUE)
-  names <- sub("R2_001","trimmed_2",sub("R1_001","trimmed_1",sub("trim_","",basename(files))))
+  names <- sub("S\\d+_L\\d+_R2_001","trimmed_2",sub("S\\d+_L\\d+_R1_001","trimmed_1",sub("trim_","",basename(files))))
   file.symlink(files,here("data/fastq/",names))
   return(file.path("data/fastq",list.files(here("data/fastq"),pattern=smpl)))
 }))

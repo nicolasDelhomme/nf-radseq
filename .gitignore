@@ -16,4 +16,6 @@ data
 raw_data
 results
 .nextflow
-.nextflow.log
+.nextflow.log*
+report
+work
