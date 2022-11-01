@@ -17,11 +17,10 @@ suppressPackageStartupMessages({
 })
 
 #' * Sample info
-samples <- read_tsv(here("raw_data/00-Reports/G.Spong_21_01_sample_info.txt"),
+samples <- read_tsv(here("raw_data/00-Reports/G.Spong_21_03_sample_info.txt"),
          col_names=c("NGI_ID","User_ID"),skip=1,
          col_types=cols_only(NGI_ID=col_character(),
-                             User_ID=col_character())) %>% 
-  filter(!grepl("NaSAC",User_ID))
+                             User_ID=col_character())) 
 
 #' # Metadata
 metadata <- t(sapply(samples$NGI_ID,function(smpl){
